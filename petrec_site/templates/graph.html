@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="https://d3js.org/d3.v6.js"></script>
+        <title>{% block title %}Petrec{% endblock %}</title>
+        
+    </head>
+    <body>
+        {% include 'navegador.html' %}
+        <select name="select1" id='select1' onChange="graph()">
+            <option value="pressure">pressure</option>
+            <option value="permeability">permeability</option>
+            <option value="porosity" selected>porosity</option>
+            <option value="density">density</option>
+            <option value="depth">depth</option>
+          </select>
+          <select name="select2" id='select2' onChange="graph()">
+            <option value="pressure">pressure</option>
+            <option value="permeability">permeability</option>
+            <option value="porosity">porosity</option>
+            <option value="density">density</option>
+            <option value="depth" selected>depth</option>
+          </select>
+        <div id="my_dataviz"></div>
+        <main>
+            <script>
+
+                // set the dimensions and margins of the graph
+                const margin = {top: 10, right: 30, bottom: 30, left: 60},
+                        width = 460 - margin.left - margin.right,
+                        height = 400 - margin.top - margin.bottom;
+                
+                // append the svg object to the body of the page
+                const svg = d3.select("#my_dataviz")
+                    .append("svg")
+                    .attr("width", width + margin.left + margin.right)
+                    .attr("height", height + margin.top + margin.bottom)
+                    .append("g")
+                    .attr("transform", `translate(${margin.left}, ${margin.top})`);
+                    var select1 = document.getElementById('select1');
+                    var select2 = document.getElementById('select2');
+                    var value1 = select1.options[select1.selectedIndex].value
+                    var value2 = select2.options[select2.selectedIndex].value
+
+
+                // read the data
+                d3.csv("../media/data.csv").then( function(data) {
+                    // add X axis
+                    var x = d3.scaleLinear()
+                    minX = d3.min(data,function(d){return parseFloat(d[value1]);})
+                    maxX = d3.max(data,function(d){return parseFloat(d[value1]);})
+                    x.domain([minX, maxX]).range([0, width]).nice();
+                  svg.append("g")
+                    .attr("transform", "translate(0," + height + ")")
+                    .call(d3.axisBottom(x));
+                
+                    // add Y axis
+                    var y = d3.scaleLinear()
+                    minY = d3.min(data,function(d){return parseFloat(d[value2]);})
+                    maxY = d3.max(data,function(d){return parseFloat(d[value2]);})
+                    y.domain([minY, maxY]).range([height, 0]).nice();
+                  svg.append("g")
+                    .call(d3.axisLeft(y));
+                
+                    // add dots
+                    svg.append('g')
+                    .selectAll("dot")
+                    .data(data)
+                    .join("circle")
+                        .attr("cx", function (d) { return x(d[value1]); } )
+                        .attr("cy", function (d) { return y(d[value2]); } )
+                        .attr("r", 1.5)
+                        .style("fill", "#69b3a2")
+                
+                    })
+                    
+
+                function graph(){
+                    d3.selectAll("svg").remove(); 
+
+                    const margin = {top: 10, right: 30, bottom: 30, left: 60},
+                    width = 460 - margin.left - margin.right,
+                    height = 400 - margin.top - margin.bottom;
+            
+                // append the svg object to the body of the page
+                const svg = d3.select("#my_dataviz", )
+                    .append("svg")
+                    .attr("width", width + margin.left + margin.right)
+                    .attr("height", height + margin.top + margin.bottom)
+                    .append("g")
+                    .attr("transform", `translate(${margin.left}, ${margin.top})`);
+                    
+                    var select1 = document.getElementById('select1');
+                    var select2 = document.getElementById('select2');
+                    var value1 = select1.options[select1.selectedIndex].value
+                    var value2 = select2.options[select2.selectedIndex].value
+                    
+                    d3.csv("../media/data.csv").then( function(data) {
+                        // add X axis
+                        var x = d3.scaleLinear()
+                        minX = d3.min(data,function(d){return parseFloat(d[value1]);})
+                        maxX = d3.max(data,function(d){return parseFloat(d[value1]);})
+                        x.domain([minX, maxX]).range([0, width]).nice();
+                      svg.append("g")
+                        .attr("transform", "translate(0," + height + ")")
+                        .call(d3.axisBottom(x));
+                    
+                        // add Y axis
+                        var y = d3.scaleLinear()
+                        minY = d3.min(data,function(d){return parseFloat(d[value2]);})
+                        maxY = d3.max(data,function(d){return parseFloat(d[value2]);})
+                        y.domain([minY, maxY]).range([height, 0]).nice();
+                      svg.append("g")
+                        .call(d3.axisLeft(y));
+                    
+                        // add dots
+                        svg.append('g')
+                        .selectAll("dot")
+                        .data(data)
+                        .join("circle")
+                            .attr("cx", function (d) { return x(d[value1]); } )
+                            .attr("cy", function (d) { return y(d[value2]); } )
+                            .attr("r", 1.5)
+                            .style("fill", "#69b3a2")
+                    
+                        })
+                }
+
+
+                </script>
+        </main>
+    </body>
+</html>

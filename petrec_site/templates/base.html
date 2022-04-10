@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{% block title %} Petrec {% endblock %}</title>
+        <meta charset="utf-8">
+        <script src="https://d3js.org/d3.v6.js"></script>
+    </head>
+    <body>
+        <header> 
+            <h1> {% block h1 %}{% endblock %} </h1>
+        </header>
+        {% include 'navegador.html' %}
+        <main> 
+            {% block content %}
+            {% endblock %}
+        </main>
+
+    </body>
+</html>
