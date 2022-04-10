@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends 'base.html' %}
 
 {% block title %}Feedback Form{% endblock %}
@@ -10,3 +11,17 @@
     <input type="submit" />
 </form><center>
 {% endblock %}
+=======
+{% extends 'base.html' %}
+
+{% block title %}Feedback Form{% endblock %}
+
+{% block content %}
+<br>
+<center> <form action="/home" method="POST">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" />
+</form><center>
+{% endblock %}
+>>>>>>> 0800a9ceec59d3824aa8fb48dd45700870babdea
