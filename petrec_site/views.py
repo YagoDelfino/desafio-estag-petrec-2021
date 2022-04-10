@@ -8,6 +8,9 @@ from django.urls import reverse
 import pandas as pd
 from .forms import FeedbackForm
 
+global upouoarquivo
+upouoarquivo = False
+
 def feedback_form(request):
     if request.method == 'POST':
         form = FeedbackForm(request.POST)
@@ -25,11 +28,12 @@ def index(request):
     return render(request, 'index.html')
 
 def graph(request):
-    context = {
-        'colunas': list(data.columns)
-    }
-    return render(request, 'graph.html', context)
-
+    if(upouoarquivo):
+        context = {
+            'colunas': list(data.columns)
+        }
+        return render(request, 'graph.html', context)
+    return render(request, 'graph.html')
 
 def feedback(request):
     return render(request, 'feedback.html')
@@ -38,11 +42,16 @@ def readfile(filename):
     global data, arquivo
     arquivo = pd.read_csv(filename, sep=',', engine='python')
     data = pd.DataFrame(data=arquivo)
+    global upouoarquivo
+    upouoarquivo = True
+
+
 
 
 
 def data(request):
     ex = {}
+
     if "POST" == request.method:
         csv_file = request.FILES["csv_file"]
         if csv_file.name.endswith('.csv'):
