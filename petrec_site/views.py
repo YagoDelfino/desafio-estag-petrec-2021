@@ -6,7 +6,20 @@ from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
 from django.urls import reverse
 import pandas as pd
+from .forms import FeedbackForm
 
+def feedback_form(request):
+    if request.method == 'POST':
+        form = FeedbackForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return render(request, 'thanks.html')
+    else:
+        form = FeedbackForm()
+    return render(request, 'feedback.html', {'form': form})
+
+def thanks(request):
+    return render(request, 'thanks.html')
 
 def index(request):
     return render(request, 'index.html')
