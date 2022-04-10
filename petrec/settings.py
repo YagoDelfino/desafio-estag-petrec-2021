@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_matplotlib',
     'petrec_site.apps.PetrecSiteConfig',
+
 ]
 
 MIDDLEWARE = [

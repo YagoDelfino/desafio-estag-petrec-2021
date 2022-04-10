@@ -15,12 +15,13 @@
         {% include 'navegador.html' %}
         <br>
         <center>
-        <select name="select1" id='select1' onChange="graph()">
+        <h1>{% block h1 %}Gráfico{% endblock %} </h1>
+        <label>x:</label> <select name="select1" id='select1' onChange="graph()">
             {% for coluna in colunas %}
             <option value={{coluna}}> {{coluna}}</option>
             {%endfor%}
           </select>
-          <select name="select2" id='select2' onChange="graph()">
+        <label>y:</label> <select name="select2" id='select2' onChange="graph()">
             {% for coluna in colunas %}
             <option value={{coluna}}> {{coluna}}</option>
             {%endfor%}
