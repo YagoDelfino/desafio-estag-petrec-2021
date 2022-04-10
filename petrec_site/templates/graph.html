@@ -1,29 +1,33 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
         <script src="https://d3js.org/d3.v6.js"></script>
-        <title>{% block title %}Petrec{% endblock %}</title>
+        <title>Petrec</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="{% static '/theme/assets/favicon.ico' %}" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{% static 'theme/css/styles.css' %}" rel="stylesheet" />
         
     </head>
     <body>
         {% include 'navegador.html' %}
+        <br>
+        <center>
         <select name="select1" id='select1' onChange="graph()">
-            <option value="pressure">pressure</option>
-            <option value="permeability">permeability</option>
-            <option value="porosity" selected>porosity</option>
-            <option value="density">density</option>
-            <option value="depth">depth</option>
+            {% for coluna in colunas %}
+            <option value={{coluna}}> {{coluna}}</option>
+            {%endfor%}
           </select>
           <select name="select2" id='select2' onChange="graph()">
-            <option value="pressure">pressure</option>
-            <option value="permeability">permeability</option>
-            <option value="porosity">porosity</option>
-            <option value="density">density</option>
-            <option value="depth" selected>depth</option>
+            {% for coluna in colunas %}
+            <option value={{coluna}}> {{coluna}}</option>
+            {%endfor%}
           </select>
         <div id="my_dataviz"></div>
         <main>
+          <center>
             <script>
 
                 // set the dimensions and margins of the graph
@@ -84,7 +88,7 @@
                     height = 400 - margin.top - margin.bottom;
             
                 // append the svg object to the body of the page
-                const svg = d3.select("#my_dataviz", )
+                const svg = d3.select("#my_dataviz")
                     .append("svg")
                     .attr("width", width + margin.left + margin.right)
                     .attr("height", height + margin.top + margin.bottom)

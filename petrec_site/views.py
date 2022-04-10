@@ -12,7 +12,10 @@ def index(request):
     return render(request, 'index.html')
 
 def graph(request):
-    return render(request, 'graph.html')
+    context = {
+        'colunas': list(data.columns)
+    }
+    return render(request, 'graph.html', context)
 
 
 def feedback(request):
@@ -32,7 +35,6 @@ def data(request):
         if csv_file.name.endswith('.csv'):
             savefile = FileSystemStorage()
             name = savefile.save(csv_file.name, csv_file)
-
             d = os.getcwd()
             file_directory = d+'/media//'+name
             readfile(file_directory)
